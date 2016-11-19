@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>Elm-marshal example</title>
+</head>
+
+<body>
+<div id="main"></div>
+<script src="main.js"></script>
+
+<script>
+    // Create a full screen elm app containing the main module
+    var app = Elm.Main.fullscreen();
+</script>
+<!-- ghcjs must strictly load after creating the app for it to be able to refer to it. -->
+<script src="ghcjs.js"></script>
+</body>
+</html>
