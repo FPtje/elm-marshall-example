@@ -8,7 +8,7 @@ ghcjs-ffiqq,
 stdenv
 }:
 mkDerivation {
-  pname = "elm-marshall";
+  pname = "elm-marshall-example-ghcjs";
   version = "0.1.0.0";
   src = ./.;
   isLibrary = false;

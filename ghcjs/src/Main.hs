@@ -5,12 +5,12 @@
 module Main where
 
 import qualified "common" ElmMarshall.Types as T
-import "ghcjs-ffiqq" GHCJS.Foreign.QQ
-import "ghcjs-base" GHCJS.Types ( JSVal, jsval )
-import "ghcjs-base" GHCJS.Marshal ( fromJSValUnchecked, toJSVal )
+import           "ghcjs-ffiqq" GHCJS.Foreign.QQ
+import           "ghcjs-base" GHCJS.Types ( JSVal, jsval )
+import           "ghcjs-base" GHCJS.Marshal ( fromJSValUnchecked, toJSVal )
 import qualified "ghcjs-base" GHCJS.Foreign.Callback as F
 import qualified "ghcjs-base" JavaScript.Object as Obj
-import "ghcjs-base" JavaScript.Object.Internal (Object(..))
+import           "ghcjs-base" JavaScript.Object.Internal (Object(..))
 
 modifyPerson :: T.Person -> T.Person
 modifyPerson p = T.Person (T.age p + 1337) (Just "This name is set from ghcjs")

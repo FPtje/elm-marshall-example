@@ -1,4 +1,4 @@
-name:                elm-marshall
+name:                elm-marshall-example-ghcjs
 version:             0.1.0.0
 synopsis:            Ghcjs part of the elm-marshall example
 -- description:
