@@ -1,4 +1,7 @@
-{ nixpkgs ? import <nixpkgs> {}, compiler ? "default" }:
+{ nixpkgs ? import <nixpkgs> {}
+, compiler ? "default"
+, elm-marshall ? null
+}:
 
 let
 
@@ -13,7 +16,7 @@ let
         src = ./.;
         isLibrary = true;
         isExecutable = true;
-        executableHaskellDepends = [ base elmexport ];
+        executableHaskellDepends = [ base elmexport elm-marshall ];
         description = "Common types shared between ghcjs and Elm";
         license = stdenv.lib.licenses.unfree;
       };

@@ -2,9 +2,21 @@
   stdenv          ? pkgs.stdenv,
   mkDerivation    ? stdenv.mkDerivation,
   callPackage     ? pkgs.callPackage,
-  runCommand      ? pkgs.runCommand
+  runCommand      ? pkgs.runCommand,
+  fetchgit        ? pkgs.fetchgit
 }:
 let
+  ghcjsCallPackage = pkgs.haskell.packages.ghcjs.callPackage;
+
+  # elm-marshall library, used to do the actual marshalling
+  elm-marshall-src = fetchgit {
+    url = https://github.com/FPtje/elm-marshall.git;
+    rev = "08ca3db09254ceed945f9b9390a883c341cf1c84";
+    sha256 = "1qzkwjgvpym2nnsck6flwfw4xkya2lv42i4a3dlm99fc354dz04s";
+  };
+
+  elm-marshall = ghcjsCallPackage elm-marshall-src { };
+
   # The haskell package that generates the common types
   common = callPackage ./common {};
 
@@ -15,11 +27,11 @@ let
   '';
 
   # ghcjs compiled common library (the other one is plain ghc)
-  common-ghcjs = pkgs.haskell.packages.ghcjs.callPackage ./common { compiler = "ghcjs"; };
+  common-ghcjs = ghcjsCallPackage ./common { compiler = "ghcjs"; inherit elm-marshall; };
 
   elm-side = callPackage ./elm { inherit common-elm; };
 
-  ghcjs-side = pkgs.haskell.packages.ghcjs.callPackage ./ghcjs { inherit common-ghcjs; };
+  ghcjs-side = ghcjsCallPackage ./ghcjs { inherit common-ghcjs elm-marshall; };
 
   # The final derivation
   drv = mkDerivation {

@@ -17,8 +17,9 @@ executable elm-marshall
 
   -- other-extensions:
   build-depends:
-      base >=4.8 && <4.9
+      base
     , common
+    , elm-marshall
     , ghcjs-base
     , ghcjs-dom
     , ghcjs-ffiqq

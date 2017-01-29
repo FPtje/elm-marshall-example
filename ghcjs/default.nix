@@ -2,6 +2,7 @@
 mkDerivation,
 base,
 common-ghcjs,
+elm-marshall,
 ghcjs-base,
 ghcjs-dom,
 ghcjs-ffiqq,
@@ -17,6 +18,7 @@ mkDerivation {
     common-ghcjs
 
     base
+    elm-marshall
     ghcjs-base
     ghcjs-dom
     ghcjs-ffiqq
