@@ -11,8 +11,8 @@ let
   # elm-marshall library, used to do the actual marshalling
   elm-marshall-src = fetchgit {
     url = https://github.com/FPtje/elm-marshall.git;
-    rev = "08ca3db09254ceed945f9b9390a883c341cf1c84";
-    sha256 = "1qzkwjgvpym2nnsck6flwfw4xkya2lv42i4a3dlm99fc354dz04s";
+    rev = "60605e56a47bcc9b31840c10c65ee6cd2b979c4f";
+    sha256 = "1yk7dp63j9gcsmf4aqdfnd5i7wj1581rnvpknhpk4hyv8m76g0ys";
   };
 
   elm-marshall = ghcjsCallPackage elm-marshall-src { };
