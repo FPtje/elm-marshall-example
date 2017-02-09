@@ -1,10 +1,12 @@
-{-# LANGUAGE QuasiQuotes #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE OverloadedStrings #-}
 
 module Main where
 
-import qualified "common" ElmMarshall.Types as T
+import qualified "common" Example.Types as T
+
+-- Only import the ElmMarshall instances from Example.Ghcjs
+import qualified "common" Example.Ghcjs ()
 import qualified "elm-marshall" Elm.Marshall as Elm
 
 -- | Simple function to modify the person
