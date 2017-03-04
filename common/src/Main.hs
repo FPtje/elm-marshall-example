@@ -9,6 +9,15 @@ import qualified "this" Example.Types as T
 person :: Proxy T.Person
 person = Proxy
 
+position :: Proxy T.Position
+position = Proxy
+
+timing :: Proxy T.Timing
+timing = Proxy
+
+monstrosity :: Proxy T.Monstrosity
+monstrosity = Proxy
+
 
 -- sumtype :: Proxy T.SumType
 -- sumtype = Proxy
@@ -30,9 +39,17 @@ spec =
     , Elm.toElmDecoderSource person
 
 
-    -- , Elm.toElmTypeSource sumtype
-    -- , Elm.toElmEncoderSource sumtype
-    -- , Elm.toElmDecoderSource sumtype
+    , Elm.toElmTypeSource position
+    , Elm.toElmEncoderSource position
+    , Elm.toElmDecoderSource position
+
+    , Elm.toElmTypeSource timing
+    , Elm.toElmEncoderSource timing
+    , Elm.toElmDecoderSource timing
+
+    , Elm.toElmTypeSource monstrosity
+    , Elm.toElmEncoderSource monstrosity
+    , Elm.toElmDecoderSource monstrosity
     ]
 
 -- | Generates the elm files

@@ -1,12 +1,9 @@
-{ nixpkgs ? import <nixpkgs> {}
+{ pkgs
 , compiler ? "default"
 , elm-marshall ? null
 }:
 
 let
-
-  inherit (nixpkgs) pkgs;
-
   elmexport = haskellPackages.callPackage ../../elm-export {};
 
   f = { mkDerivation, base, aeson, elm-export, stdenv }:
@@ -18,7 +15,7 @@ let
         isExecutable = true;
         executableHaskellDepends = [ base  aeson elmexport elm-marshall ];
         description = "Common types shared between ghcjs and Elm";
-        license = stdenv.lib.licenses.unfree;
+        license = stdenv.lib.licenses.mit;
       };
 
   haskellPackages = if compiler == "default"
