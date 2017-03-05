@@ -19,9 +19,6 @@ monstrosity :: Proxy T.Monstrosity
 monstrosity = Proxy
 
 
--- sumtype :: Proxy T.SumType
--- sumtype = Proxy
-
 -- | What the resulting Elm file should contain. Make sure the elm project has
 -- packages NoRedInk/elm-decode-pipeline and krisajenkins/elm-exts installed.
 spec :: Elm.Spec

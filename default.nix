@@ -11,10 +11,11 @@ let
   ghcjsCallPackage = pkgs.haskell.packages.ghcjsHEAD.callPackage;
 
   # elm-marshall library, used to do the actual marshalling
+  # elm-marshall-src = ../elm-marshall; # For developing
   elm-marshall-src = fetchgit {
     url = https://github.com/FPtje/elm-marshall.git;
-    rev = "60605e56a47bcc9b31840c10c65ee6cd2b979c4f";
-    sha256 = "1yk7dp63j9gcsmf4aqdfnd5i7wj1581rnvpknhpk4hyv8m76g0ys";
+    rev = "72f5d66792dd5a69d8578d4f1b614fbc34c1a876";
+    sha256 = "08lb26kdqpig2ga8nwxliwp6999jfncsykfqhfvmg62vqk2frgh7";
   };
   elm-marshall = ghcjsCallPackage elm-marshall-src { };
 

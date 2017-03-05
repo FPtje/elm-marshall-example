@@ -18,16 +18,16 @@ data Position
   = Beginning
   | Middle
   | End
-  deriving (Generic, Elm.ElmType)
+  deriving (Show, Generic, Elm.ElmType, ToJSON, FromJSON)
 
 data Timing
   = Start
   | Continue Double
   | Stop
-  deriving (Generic, Elm.ElmType)
+  deriving (Show, Generic, Elm.ElmType, ToJSON, FromJSON)
 
 data Monstrosity
   = NotSpecial
   | OkayIGuess Monstrosity
   | Ridiculous Int String [Monstrosity]
-  deriving (Generic, Elm.ElmType)
+  deriving (Show, Generic, Elm.ElmType, ToJSON, FromJSON)

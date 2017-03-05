@@ -1,7 +1,8 @@
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-import Json.Decode as Json
+import Json.Encode as JsonE
+import Json.Decode as JsonD
 import Types as T
 import Task
 
@@ -22,40 +23,83 @@ main =
 -- MODEL
 
 
-type alias Model = T.Person
+type alias Model =
+  { person      : T.Person
+  , position    : T.Position
+  , timing      : T.Timing
+  , monstrosity : T.Monstrosity
+  }
 
 
 init : (Model, Cmd Msg)
 init =
-  ( { age = 3, name = Just "Foo Bar" }
-  , Cmd.none
+  let
+    model =
+      { person      = { age = 3, name = Just "Foo Bar" }
+      , position    = T.Beginning
+      , timing      = T.Continue 1
+      , monstrosity = T.OkayIGuess T.NotSpecial
+      }
+  in
+  ( model
+  , Cmd.batch
+      [ P.positionOut    <|                   T.encodePosition    model.position
+      , P.timingOut      <| JsonE.encode 0 <| T.encodeTiming      model.timing
+      , P.monstrosityOut <| JsonE.encode 0 <| T.encodeMonstrosity model.monstrosity
+      ]
   )
 
 
 
 -- UPDATE
 
+unsafeFromResult : Result String val -> val
+unsafeFromResult res =
+    case res of
+      Ok val -> val
+      Err err -> Debug.crash err
 
 type Msg
-  = NewPerson T.Person
+  = PersonUpdate T.Person
   | RequestPersonChange
-
+  | ToGhcjs
+  | ReceivePosition    JsonD.Value
+  | ReceiveTiming      JsonD.Value
+  | ReceiveMonstrosity JsonD.Value
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
   case msg of
-    NewPerson p ->
-      (p, Cmd.none)
+    PersonUpdate p ->
+      ({ model | person = p }, Cmd.none)
+
     RequestPersonChange ->
-      (model, P.requestPersonChange model)
+      (model, P.requestPersonChange model.person)
+
+    ToGhcjs ->
+      (model, Cmd.batch
+        [ P.positionOut    <|                   T.encodePosition    model.position
+        , P.timingOut      <| JsonE.encode 0 <| T.encodeTiming      model.timing
+        , P.monstrosityOut <| JsonE.encode 0 <| T.encodeMonstrosity model.monstrosity
+        ])
+
+    ReceivePosition val ->
+        ({ model | position    = unsafeFromResult <| JsonD.decodeValue T.decodePosition val }, Cmd.none)
+
+    ReceiveTiming val ->
+        ({ model | timing      = unsafeFromResult <| JsonD.decodeValue T.decodeTiming val }, Cmd.none)
+
+    ReceiveMonstrosity val ->
+        ({ model | monstrosity = unsafeFromResult <| JsonD.decodeValue T.decodeMonstrosity val }, Cmd.none)
+
 
 
 
 -- VIEW
 
-printName : Model -> String
-printName model =
-  case model.name of
+printName : T.Person -> String
+printName person =
+  case person.name of
     Nothing -> "No name available!"
     Just name -> name
 
@@ -63,8 +107,14 @@ view : Model -> Html Msg
 view model =
   div []
     [ p [] [ text "Person details:" ]
-    , p [] [ text "age: ", text (toString model.age), br [] [], text "name: ", text (printName model) ]
+    , p [] [ text "age: ", text (toString model.person.age), br [] [], text "name: ", text (printName model.person) ]
     , button [ onClick RequestPersonChange ] [ text "Have GHCJS change this person" ]
+
+    , p [] [ text <| "position: " ++ toString model.position ]
+    , p [] [ text <| "timing: " ++ toString model.timing ]
+    , p [] [ text <| "monstrosity: " ++ toString model.monstrosity ]
+
+    , button [ onClick ToGhcjs ] [ text "test" ]
     ]
 
 
@@ -74,4 +124,9 @@ view model =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-  P.changedPerson NewPerson
+  Sub.batch
+    [ P.changedPerson PersonUpdate
+    , P.positionIn ReceivePosition
+    , P.timingIn ReceiveTiming
+    , P.monstrosityIn ReceiveMonstrosity
+    ]
