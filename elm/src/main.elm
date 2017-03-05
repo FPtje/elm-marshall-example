@@ -42,11 +42,9 @@ init =
       }
   in
   ( model
-  , Cmd.batch
-      [ P.positionOut    <|                   T.encodePosition    model.position
-      , P.timingOut      <| JsonE.encode 0 <| T.encodeTiming      model.timing
-      , P.monstrosityOut <| JsonE.encode 0 <| T.encodeMonstrosity model.monstrosity
-      ]
+    -- Sadly, initial Cmds won't reach ghcjs, since the listeners are created
+    -- after Elm has initialised.
+  , Cmd.none
   )
 
 

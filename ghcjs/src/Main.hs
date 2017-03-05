@@ -49,12 +49,29 @@ monstrosityFromElm app monstrosity = do
     putStrLn "Sent monstrosity"
 
 
--- | Main function.
--- Just gets the Elm app from a global and binds a listener to the requestPersonChange port
+-- | Main function. Just gets the Elm app from a global and binds some
+-- listeners to the requestPersonChange port
 main :: IO ()
 main = do
     app <- Elm.fromGlobalApp "app"
-    Elm.assignPortListener app "requestPersonChange" (requestPersonChange app)
-    Elm.assignJSONPortListener app "positionOut"     (positionFromElm app)
-    Elm.assignJSONStringPortListener app "timingOut"      (timingFromElm app)
-    Elm.assignJSONStringPortListener app "monstrosityOut" (monstrosityFromElm app)
+
+    Elm.assignPortListener
+        app
+        "requestPersonChange"
+        (requestPersonChange app)
+
+    Elm.assignJSONPortListener
+        app
+        "positionOut"
+        (positionFromElm app)
+
+    Elm.assignJSONStringPortListener
+        app
+        "timingOut"
+        (timingFromElm app)
+
+    Elm.assignJSONStringPortListener
+        app
+        "monstrosityOut"
+        (monstrosityFromElm app)
+
